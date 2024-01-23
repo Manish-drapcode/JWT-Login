@@ -1,34 +1,26 @@
 import React, { useEffect } from 'react'
 import {useState} from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
 const Login = () => {
-const baseURL = "http://localhost:/3003/";
+
+  const navigate= useNavigate();
+
 const [name, setName]= useState('');
 const url = 'http://localhost:3003/user/login';
 
 const [password, setPassword]= useState('');
-const [submit,setSubmit]= useState(false);
-// useEffect( async ()=>{
-// if(submit){
-// try{
-//     const response = await axios.post('Localhost:3003/user',{});
-// }
-// catch(err){
-//     console.log(err);
-// }
-// }
-// })
+
+
 const handlesubmit = async (event) =>{
-    console.log("name and password ",name)
-    console.log(password);
-    event.preventDefault();
-    setSubmit(prevSubmit=>!submit);
+event.preventDefault();
     try{
 const obj = {
     username:name,
     userpassword:password,
 };
-console.log(obj);
+
 try {
     const response = await axios.get(url, { params: obj }); // Use axios.get with params option
     console.log(response.data); // handle the response
@@ -50,6 +42,11 @@ const handleInputPassword=(event)=>{
     setPassword(event.target.value);
 }
 
+const navigation =(event)=>{
+  event.preventDefault();
+ navigate('/Signup')
+
+}
 
   return (<div>
     <div>Login</div>
@@ -61,6 +58,7 @@ const handleInputPassword=(event)=>{
         <input type="password" name ="password" value={password} onChange={handleInputPassword}></input><br />
         <button type ="Sumit" className ="btn">Login</button>
         </form>
+        <button type="submit" className="btn" onClick={navigation}>Signup</button>
     </div>
     </div>
   )
