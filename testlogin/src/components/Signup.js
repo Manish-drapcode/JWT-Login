@@ -18,6 +18,8 @@ const navigate = useNavigate();
 const handlesubmit=async (event)=>{
 event.preventDefault();
 
+setSubmit(prevSubmit => !prevSubmit);
+
 try{
   const data={
     username:name,
@@ -38,23 +40,29 @@ catch(error){
     const handleInputPassword=(event)=>{
 setPassword(event.target.value);
     }
+    const handleEmailChange=(event)=>{
+      setEmail(event.target.value);
+          }
   return (
     <div className="signup">
       <header className="signup-header">
       <form onSubmit={handlesubmit}>
         <label>Name: </label>
         <input type="text" name="usename" value={name} onChange={handleInputChange} ></input> <br />
+        <label>Email: </label>
+        <input type="text" name="useremail" value={email} onChange={handleEmailChange}></input><br />
         <label>Password:  </label>
         <input type="password" name ="password" value={password} onChange={handleInputPassword}></input><br />
-        <button type ="Sumit" className ="btn">Submit</button>
+        <button type ="Sumit" className ="btn" >Submit</button>
         </form>
-        {submit &<div>
+        {submit &&(  <div>
         <p>Name: {name}</p>
         <p>email : {email} </p>
-        <button type="Submit" className="btn" onClick={()=>{navigate(-1)}}>Login</button>
+        <button type="Submit" className="btn" onClick={()=>{navigate('/Login')}}>Login</button>
         </div>           
-        }
+        )}
       </header>
+      
     </div>
   )
 }
