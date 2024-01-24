@@ -35,25 +35,52 @@ router.post('/signup',async(req,res)=>{
     });
 
 router.get('/login',async(req,res)=>{
+    if (req.query.username == null){
+        console.log(req.query);
+        console.log("no data is found ");
+        res.status(400).send({message:"No Data found in body "});
+        res.end();
+    }
+    else
+   {     try{
+        
+            const details = await user.findOne({name:req.query.username});
+            console.log(details);
+            console.log("request body for login:",req.query);
+            const match = await bcrypt.compare(req.query.userpassword,details.password);
+            const accessToken = jwt.sign(JSON.stringify(details),process.env.TOKEN_SECRET);
+    
+            if(match){
+            res.status(200).send({message:"Successfull"})
+            }
+            else{
+                res.json({message:"invalid credentials"});
+            }
+
+        }
+        catch(err){
+            console.log("error-login",err);
+            res.status(400).send({success:false , mes:{err}});
+        }}
+})
+
+router.get('/alldata',async(req,res)=>{
+
     try{
-        const details = await user.findOne({name:req.body.username});
-        console.log(details);
-        console.log("request body for login:",req.body);
-        const match = await bcrypt.compare(req.body.userpassword,details.password);
-        const accessToken = jwt.sign(JSON.stringify(details),process.env.TOKEN_SECRET);
-
-        if(match){
-            res.send({accessToken:accessToken})
-        }
-        else{
-            res.json({message:"invalid credentials"});
-        }
-
+const response =  await user.find();
+console.log(response);
+res.status(200).json(response);
     }
-    catch(err){
-        console.log("error-login",err);
-        res.status(400).send({success:false , mes:{err}});
+    catch(error){
+        console.log(error)
     }
+})
+router.delete('/crud',async(req,res)=>{
+    const id=req.query;
+    try{const response = await user.deleteOne({_id : id});
+res.status(200).send({message:"sucessfull"})
+}catch(error){console.log(error)}
+    
 })
 
 module.exports=router;
