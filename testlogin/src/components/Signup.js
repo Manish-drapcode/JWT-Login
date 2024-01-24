@@ -55,10 +55,10 @@ setPassword(event.target.value);
         <input type="password" name ="password" value={password} onChange={handleInputPassword}></input><br />
         <button type ="Sumit" className ="btn" >Submit</button>
         </form>
-        {submit &&(  <div>
-        <p>Name: {name}</p>
-        <p>email : {email} </p>
-        <button type="Submit" className="btn" onClick={()=>{navigate('/Login')}}>Login</button>
+        {submit &&(  <div className="">
+        <p>Name:{name} <br/>
+        email :{email} </p>
+        <button type="Submit" className="btn btn-outline-secondary" onClick={()=>{navigate('/Login')}}>Login</button>
         </div>           
         )}
       </header>

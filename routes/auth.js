@@ -64,5 +64,24 @@ router.get('/login',async(req,res)=>{
         }}
 })
 
+router.get('/alldata',async(req,res)=>{
+
+    try{
+const response =  await user.find();
+console.log(response);
+res.status(200).json(response);
+    }
+    catch(error){
+        console.log(error)
+    }
+})
+router.delete('/crud',async(req,res)=>{
+    const id=req.query;
+    try{const response = await user.deleteOne({_id : id});
+res.status(200).send({message:"sucessfull"})
+}catch(error){console.log(error)}
+    
+})
+
 module.exports=router;
 
